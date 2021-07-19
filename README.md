@@ -137,6 +137,9 @@ from pygeopkg.conversion.to_geopkg_geom import (
 from pygeopkg.shared.constants import SHAPE
 from pygeopkg.core.geopkg import GeoPackage
 
+# NOTE: Builds from previous examples 
+# and assumes existing GeoPackage and feature class!
+
 gpkg = GeoPackage(r'c:\temp\test.gpkg')
 fc = gpkg.get_feature_class('test')
 
