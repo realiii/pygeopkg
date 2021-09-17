@@ -224,7 +224,7 @@ gpkg_wkb = point_lists_to_gpkg_polygon(hdr, rings)
 
 * Write unpackers so that this package can be used to extract data
   from GeoPackages. Focus is currently on writing. Unpackers specific
-  to this pacakge exist for testing only.
+  to this package exist for testing only.
 * Write a more thorough implementation of the individual geometry headers.
 
 
