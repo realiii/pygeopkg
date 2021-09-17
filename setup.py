@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 
 setup(
     name='pygeopkg',
-    version='0.1',
+    version='0.1.0',
     # author='Author',
     # author_email='author@email.com',
     description='A Python library that allows for the creation and population of OGC GeoPackage databases with write access',
