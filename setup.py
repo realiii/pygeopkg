@@ -1,17 +1,16 @@
-#!/usr/bin/env python
+from setuptools import find_packages, setup
+from os.path import join, dirname
 
-from setuptools import setup
-import os
-
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+with open(join(dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 setup(
     name='pygeopkg',
-    version='0.1.0',
-    # author='Author',
-    # author_email='author@email.com',
-    description='A Python library that allows for the creation and population of OGC GeoPackage databases with write access',
+    version='0.1.2',
+    author='Integrated Informatics Inc.',
+    author_email='gis@integrated-informatics.com',
+    description='A Python library that allows for the creation and population '
+                'of OGC GeoPackage databases with write access',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/realiii/pygeopkg',
@@ -23,5 +22,5 @@ setup(
         'Operating System :: OS Independent',
         # 'Development Status :: 5 - Production/Stable',
     ],
-    packages=['conversion', 'core', 'resources', 'shared'],
+    packages=find_packages(exclude=('*tests',)),
 )
