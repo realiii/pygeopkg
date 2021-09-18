@@ -13,9 +13,10 @@ from pygeopkg.core.geopkg import GeoPackage, GeoPkgFeatureClass, GeoPkgTable
 from pygeopkg.core.srs import SRS
 from pygeopkg.core.field import Field
 from pygeopkg.shared.enumeration import GeometryType, SQLFieldTypes
-from pygeopkg.tests.projection_strings import WGS_1984_UTM_Zone_23N
-from pygeopkg.tests.utils import (get_table_rows, check_table_exists,
-                                  random_points_and_attrs, random_attrs)
+from tests.projection_strings import WGS_1984_UTM_Zone_23N
+from tests.utils import (
+    get_table_rows, check_table_exists,
+    random_points_and_attrs, random_attrs)
 
 
 class TestGeoPackage(TestCase):
