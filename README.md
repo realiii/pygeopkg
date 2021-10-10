@@ -8,10 +8,7 @@ For more details on OGC GeoPackages, please see the [OGC web page](http://www.ge
 
 ## Installation
 
-**pygeopkg** was created to work as a packaged sub-respository in a larger
-Python library. As such, users should simply add this repository as
-a sub-repository via git to their main repository or download the files and
-add them to their projects as they see fit.
+**pygeopkg** is avaialble from the [Python Package Index](http://www.pypi.org).
 
 
 ### Python Compatibility
@@ -218,14 +215,6 @@ rings = [[(300000, 1), (300000, 4000000), (700000, 4000000),
 hdr = make_gpkg_geom_header(32623)
 gpkg_wkb = point_lists_to_gpkg_polygon(hdr, rings)
 ```
-
-
-## Roadmap
-
-* Write unpackers so that this package can be used to extract data
-  from GeoPackages. Focus is currently on writing. Unpackers specific
-  to this package exist for testing only.
-* Write a more thorough implementation of the individual geometry headers.
 
 
 ## License
