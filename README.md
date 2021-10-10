@@ -8,7 +8,7 @@ For more details on OGC GeoPackages, please see the [OGC web page](http://www.ge
 
 ## Installation
 
-**pygeopkg** is avaialble from the [Python Package Index](http://www.pypi.org).
+**pygeopkg** is avaialble from the [Python Package Index](https://pypi.org/project/pygeopkg/).
 
 
 ### Python Compatibility
