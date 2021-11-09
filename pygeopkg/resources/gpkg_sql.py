@@ -32,7 +32,7 @@ CREATE TABLE gpkg_contents (
   data_type TEXT NOT NULL,
   identifier TEXT UNIQUE,
   description TEXT DEFAULT '',
-  last_change DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  last_change DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%S.%fZ','now')),
   min_x DOUBLE,
   min_y DOUBLE,
   max_x DOUBLE,
