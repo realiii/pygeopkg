@@ -2,3 +2,4 @@
 *.gpkg
 *.egg-info
 dist/
+.idea*
