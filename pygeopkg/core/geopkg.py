@@ -261,7 +261,7 @@ class GeoPackage(object):
         :return: the current time stamp string
         :rtype: str
         """
-        return datetime.now().strftime('%Y-%m-%dT%H:%M:%fZ')
+        return datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     # End get_now method
 
     def insert_rows(self, dataset_name, field_names, data):
