@@ -192,7 +192,7 @@ def point_lists_to_gpkg_multi_polygon(header, list_of_polys):
 # End point_lists_to_gpkg_multi_polygon function
 
 
-def postgis_wkb_to_gpkg_geometry(header, wkb):
+def wkb_to_gpkg_geometry(header, wkb):
     """
     This accepts a WKB object from PostGIS created with ST_AsBinary()
     :param header: the binary header, see "make_gpkg_geom_header"
