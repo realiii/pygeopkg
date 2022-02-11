@@ -2,16 +2,39 @@
 SQL Constants
 """
 
-INSERT_GPKG_CONTENTS = (
-    """INSERT INTO gpkg_contents (table_name, data_type, identifier, """
-    """description, last_change, min_x, min_y, max_x, max_y, srs_id) """
-    """VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-)
 
-INSERT_GPKG_CONTENTS_SHORT = (
-    """INSERT INTO gpkg_contents (table_name, data_type, identifier, """
-    """description, last_change, srs_id) VALUES (?, ?, ?, ?, ?, ?)"""
-)
+INSERT_GPKG_CONTENTS = """
+    INSERT INTO gpkg_contents (table_name, data_type, identifier, 
+    description, last_change, min_x, min_y, max_x, max_y, srs_id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
+
+
+INSERT_GPKG_OGR_CONTENTS = """
+    INSERT INTO gpkg_ogr_contents (table_name, feature_count) VALUES (?, ?)
+"""
+
+GPKG_OGR_CONTENTS_INSERT_TRIGGER = """
+    CREATE TRIGGER trigger_insert_feature_count_%s
+    AFTER INSERT ON %s
+    BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count + 1 
+          WHERE lower(table_name) = lower('%s'); END;
+"""
+
+
+GPKG_OGR_CONTENTS_DELETE_TRIGGER = """
+    CREATE TRIGGER trigger_delete_feature_count_%s
+    AFTER DELETE ON %s
+    BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count - 1 
+          WHERE lower(table_name) = lower('%s'); END;
+"""
+
+
+INSERT_GPKG_CONTENTS_SHORT = """
+    INSERT INTO gpkg_contents (table_name, data_type, identifier, 
+    description, last_change, srs_id) VALUES (?, ?, ?, ?, ?, ?)
+"""
+
 
 INSERT_GPKG_GEOM_COL = (
     """INSERT INTO gpkg_geometry_columns (table_name, column_name, """
