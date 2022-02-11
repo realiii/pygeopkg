@@ -1,6 +1,8 @@
 """
 Geo Package Class
 """
+
+
 from sys import version_info
 from datetime import datetime
 from os import remove
@@ -9,18 +11,19 @@ from pygeopkg.core.field import Field
 from pygeopkg.core.utils import (
     connection_execute, insert_table_rows, get_table_count,
     connection_execute_many, create_gpkg_from_sql)
-from pygeopkg.shared.enumeration import (GeometryType, DataType, SQLFieldTypes,
-                                         GeoPackageCoreTableNames, GPKGFLavors,
-                                         GEOMETRY_FIELD_TYPES)
+from pygeopkg.shared.enumeration import (
+    GeometryType, DataType, SQLFieldTypes, GeoPackageCoreTableNames,
+    GPKGFLavors, GEOMETRY_FIELD_TYPES)
 from pygeopkg.shared.messages import (
     ERR_DATASET_NO_EXIST, ERR_PROVIDE_PARAMS_FC, ERR_TABLE_EXISTS)
 from pygeopkg.shared.sql import (
-    CREATE_FEATURE_TABLE, INSERT_GPKG_CONTENTS_SHORT, INSERT_GPKG_CONTENTS,
-    INSERT_GPKG_SRS, INSERT_GPKG_GEOM_COL, TABLE_EXISTS,
-    PRAGMA_TABLE_INFO, CREATE_NON_SPATIAL_TABLE, CHECK_SRS_EXISTS,
-    GET_TABLE_NAMES_BY_TYPE, GET_TABLE_NAME_BY_TYPE, DELETE_FROM_TABLE_BY_NAME,
-    DROP_TABLE, ADD_COLUMN, SELECT_SRS_BY_TABLE_NAME, UPDATE_CONTENTS_EXTENT,
-    GET_FC_EXTENT)
+    CREATE_FEATURE_TABLE, GPKG_OGR_CONTENTS_DELETE_TRIGGER,
+    GPKG_OGR_CONTENTS_INSERT_TRIGGER, INSERT_GPKG_CONTENTS_SHORT,
+    INSERT_GPKG_CONTENTS, INSERT_GPKG_OGR_CONTENTS, INSERT_GPKG_SRS,
+    INSERT_GPKG_GEOM_COL, TABLE_EXISTS, PRAGMA_TABLE_INFO,
+    CREATE_NON_SPATIAL_TABLE, CHECK_SRS_EXISTS, GET_TABLE_NAMES_BY_TYPE,
+    GET_TABLE_NAME_BY_TYPE, DELETE_FROM_TABLE_BY_NAME, DROP_TABLE, ADD_COLUMN,
+    SELECT_SRS_BY_TABLE_NAME, UPDATE_CONTENTS_EXTENT, GET_FC_EXTENT)
 from pygeopkg.shared.constants import COMMA, COMMA_SPACE, SHAPE, GPKG_EXT
 from pygeopkg.core.srs import SRS
 
@@ -70,6 +73,31 @@ class GeoPackage(object):
                       time_stamp, srs_id)
         connection_execute(self.full_path, sql, values)
     # End _add_row_to_gpkg_contents method
+
+    def _add_row_to_gpkg_ogr_contents(self, table_name):
+        """
+        Add a row to the gpkg_ogr_contents table
+
+        :param table_name: The table name
+        :type table_name: str
+        """
+        sql = INSERT_GPKG_OGR_CONTENTS
+        connection_execute(self.full_path, sql, (table_name, 0))
+    # End _add_row_to_gpkg_ogr_contents method
+
+    def _add_gpkg_ogr_contents_triggers(self, table_name):
+        """
+        Add triggers for gpkg_ogr_contents
+
+        :param table_name: The table name
+        :type table_name: str
+        """
+        names = table_name, table_name, table_name
+        sql = GPKG_OGR_CONTENTS_INSERT_TRIGGER
+        connection_execute(self.full_path, sql % names)
+        sql = GPKG_OGR_CONTENTS_DELETE_TRIGGER
+        connection_execute(self.full_path, sql % names)
+    # End _add_gpkg_ogr_contents_triggers method
 
     def _add_row_to_gpkg_geom_columns(
             self, table_name, geometry_type, srs_id, z_enabled, m_enabled):
@@ -174,6 +202,8 @@ class GeoPackage(object):
             name, shape_type, srs.srs_id, z_enabled, m_enabled)
         self._add_row_to_gpkg_contents(
             name, srs.srs_id, description=description)
+        self._add_row_to_gpkg_ogr_contents(name)
+        self._add_gpkg_ogr_contents_triggers(name)
         return GeoPkgFeatureClass(geopackage=self, name=name)
     # End create_feature_class method
 
