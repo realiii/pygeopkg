@@ -243,7 +243,10 @@ class TestGeoPackage(TestCase):
         """
         target_path, gpkg, srs, fields = self._setup_basics(
             'test_create_table.gpkg')
-        tbl = gpkg.create_table('test1', fields, 'wutevah')
+        table_name = 'test1'
+        tbl = gpkg.create_table(table_name, fields, 'wutevah')
+        self.assertTrue(check_table_exists(target_path, table_name))
+        self.assertTrue(check_ogr_trigger_exists(target_path, table_name))
         self.assertIsInstance(tbl, GeoPkgTable)
         exp_contents = [u'test1', u'attributes', u'test1', u'wutevah',
                         None, None, None, None, None]

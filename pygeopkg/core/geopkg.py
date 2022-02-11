@@ -244,6 +244,8 @@ class GeoPackage(object):
         self._create_nonspatial_table(name, fields)
         self._add_row_to_gpkg_contents(
             name, data_type=DataType.attributes, description=description)
+        self._add_row_to_gpkg_ogr_contents(name)
+        self._add_gpkg_ogr_contents_triggers(name)
         return GeoPkgTable(geopackage=self, name=name)
     # End create_table method
 
