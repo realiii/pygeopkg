@@ -74,14 +74,25 @@ GPKG_TILE_MATRIX_TABLE = """
       CONSTRAINT pk_ttm PRIMARY KEY (table_name, zoom_level),
       CONSTRAINT fk_tmm_table_name FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name))
 """
-CREATE TABLE gpkg_extensions (
-  table_name TEXT,
-  column_name TEXT,
-  extension_name TEXT NOT NULL,
-  definition TEXT NOT NULL,
-  scope TEXT NOT NULL,
-  CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name))
-""")
+
+
+GPKG_EXTENSIONS = """
+    CREATE TABLE gpkg_extensions (
+      table_name TEXT,
+      column_name TEXT,
+      extension_name TEXT NOT NULL,
+      definition TEXT NOT NULL,
+      scope TEXT NOT NULL,
+      CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name))
+"""
+
+
+GPKG_OGR_CONTENTS = """
+    CREATE TABLE gpkg_ogr_contents (
+      table_name TEXT NOT NULL PRIMARY KEY,
+      feature_count INTEGER DEFAULT NULL)
+"""
+
 
 DEFAULT_SRS_RECS = (
     ('Undefined Cartesian SRS', -1, 'NONE', -1, 'undefined',
@@ -102,7 +113,8 @@ ORDERED_GPKG_SQL = (
     GPKG_PRAGMA_APPLICATION_ID, GPKG_PRAGMA_USER_VERSION,
     GPKG_SPATIAL_REF_SYS_TABLE, GPKG_CONTENTS_TABLE,
     GPKG_GEOMETRY_COLUMNS_TABLE, GPKG_TILE_MATRIX_SET_TABLE,
-    GPKG_TILE_MATRIX_TABLE, GPKG_EXTENSIONS)
+    GPKG_TILE_MATRIX_TABLE, GPKG_EXTENSIONS, GPKG_OGR_CONTENTS)
+
 
 if __name__ == '__main__':
     pass
