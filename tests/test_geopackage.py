@@ -1,6 +1,8 @@
 """
 Test GeoPackage
 """
+
+
 from os.path import dirname, join, exists, isfile
 from unittest import TestCase
 from pygeopkg.conversion.to_geopkg_geom import (
@@ -15,7 +17,7 @@ from pygeopkg.core.field import Field
 from pygeopkg.shared.enumeration import GeometryType, SQLFieldTypes
 from tests.projection_strings import WGS_1984_UTM_Zone_23N
 from tests.utils import (
-    get_table_rows, check_table_exists,
+    check_ogr_trigger_exists, get_table_rows, check_table_exists,
     random_points_and_attrs, random_attrs)
 
 
@@ -93,7 +95,7 @@ class TestGeoPackage(TestCase):
               "WHERE table_name = 'test_pnts'"
         results = gpkg.execute_query(sql)
         self.assertTrue(results)
-    # End test_gpkg_fcs
+    # End test_gpkg_fcs method
 
     def test_create_point_fc(self):
         """
@@ -102,10 +104,12 @@ class TestGeoPackage(TestCase):
         target_path, gpkg, srs, fields = self._setup_basics(
             'test_create_point_fc.gpkg')
 
-        fc = gpkg.create_feature_class('test1', srs, fields=fields)
+        table_name = 'test1'
+        fc = gpkg.create_feature_class(table_name, srs, fields=fields)
         self.assertIsInstance(fc, GeoPkgFeatureClass)
 
-        check_table_exists(target_path, 'test1')
+        self.assertTrue(check_table_exists(target_path, table_name))
+        self.assertTrue(check_ogr_trigger_exists(target_path, table_name))
 
         exp_contents = [u'test1', u'features', u'test1', u'',
                         None, None, None, None, 32623]
@@ -124,9 +128,9 @@ class TestGeoPackage(TestCase):
             exp_srs, get_table_rows(target_path, 'gpkg_spatial_ref_sys')[-1])
         fld = Field('boooom', SQLFieldTypes.double)
         fc.add_field(fld)
-        self.assertTrue(fld.name in fc.field_names)
+        self.assertIn(fld.name, fc.field_names)
 
-    # End test_create_fc method
+    # End test_create_point_fc method
 
     def test_create_line_fc(self):
         """
@@ -139,7 +143,7 @@ class TestGeoPackage(TestCase):
             'test1', srs, fields=fields, shape_type=GeometryType.linestring)
         self.assertIsInstance(fc, GeoPkgFeatureClass)
 
-        check_table_exists(target_path, 'test1')
+        self.assertTrue(check_table_exists(target_path, 'test1'))
 
         exp_contents = [u'test1', u'features', u'test1', u'',
                         None, None, None, None, 32623]
@@ -168,7 +172,7 @@ class TestGeoPackage(TestCase):
         fc = gpkg.create_feature_class(
             'test1', srs, fields=fields, shape_type=GeometryType.polygon)
         self.assertIsInstance(fc, GeoPkgFeatureClass)
-        check_table_exists(target_path, 'test1')
+        self.assertTrue(check_table_exists(target_path, 'test1'))
 
         exp_contents = [u'test1', u'features', u'test1', u'',
                         None, None, None, None, 32623]

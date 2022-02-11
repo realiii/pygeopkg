@@ -43,18 +43,31 @@ def get_table_rows(database, table_name):
 def check_table_exists(database, table_name):
     """
     Check existence of table
-
-    :param database:
-    :param table_name:
-    :return:
     """
+    return _check_object_name(database, 'table', table_name)
+# End check_table_exists function
+
+
+def check_ogr_trigger_exists(database, table_name):
+    """
+    Check existence of triggers for OGR
+    """
+    insert = 'trigger_insert_feature_count_%s' % table_name
+    delete = 'trigger_delete_feature_count_%s' % table_name
+    has_insert = _check_object_name(database, 'trigger', insert)
+    has_delete = _check_object_name(database, 'trigger', delete)
+    return has_insert and has_delete
+# End check_ogr_trigger_exists function
+
+
+def _check_object_name(database, type_, name):
     with connect(database) as conn:
         result = conn.execute(
-            "SELECT name FROM sqlite_master WHERE type='table' "
-            "AND name='{table_name}'".format(table_name=table_name))
+            "SELECT name FROM sqlite_master WHERE type='{type_}' "
+            "AND name='{name}'".format(type_=type_, name=name))
         out = result.fetchall()
-    return len(out) > 0
-# End check_table_exists
+    return bool(out)
+# End _check_object_name function
 
 
 def random_attrs(count):
