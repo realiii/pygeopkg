@@ -51,7 +51,7 @@ class SQLFieldTypes(object):
     text = 'TEXT'
     blob = 'BLOB'
     date = 'DATE'
-    datetime = 'DATETIME',
+    datetime = 'DATETIME'
     point = GeometryType.point
     linestring = GeometryType.linestring
     polygon = GeometryType.polygon

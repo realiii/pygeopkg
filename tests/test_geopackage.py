@@ -40,7 +40,8 @@ class TestGeoPackage(TestCase):
             Field('int_fld', SQLFieldTypes.integer),
             Field('text_fld', SQLFieldTypes.text),
             Field('test_fld_size', SQLFieldTypes.text, 100),
-            Field('test_bool', SQLFieldTypes.boolean))
+            Field('test_bool', SQLFieldTypes.boolean),
+            Field('test_datetime', SQLFieldTypes.datetime))
         return target_path, gpkg, srs, fields
 
     def test_create_gpkg(self):
@@ -290,7 +291,7 @@ class TestGeoPackage(TestCase):
         fc.insert_rows(field_names, rows)
 
         test_fields = fc.fields
-        self.assertEqual(len(test_fields), 6)
+        self.assertEqual(len(test_fields), 7)
         self.assertIsInstance(test_fields[0], Field)
         test_field_names = [f.name for f in test_fields]
         field_names = ['fid'] + field_names
@@ -320,7 +321,7 @@ class TestGeoPackage(TestCase):
 
         field_names = ['SHAPE'] + [f.name for f in fields]
         test_fields = fc.fields
-        self.assertEqual(len(test_fields), 6)
+        self.assertEqual(len(test_fields), 7)
         self.assertIsInstance(test_fields[0], Field)
         test_field_names = [f.name for f in test_fields]
         field_names = ['fid'] + field_names
