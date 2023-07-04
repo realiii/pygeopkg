@@ -1,9 +1,11 @@
 # pygeopkg
 
-**pygeopkg** is a Python compatible library that allows for the creation and
-population of (*write-to*) an OGC GeoPackage database, including creating features within this resource. GeoPackages can be opened and viewed software solutions built for viewing and analyzing spatial data, including ArcGIS and QGIS. 
+*Refer to [fudgeo](https://pypi.org/project/fudgeo/) for modernized GeoPackage
+capabilities, this package not actively maintained*
 
-For more details on OGC GeoPackages, please see the [OGC web page](http://www.geopackage.org/).
+**pygeopkg** is a Python compatible library that allows for the creation and
+population of (*write-to*) an OGC GeoPackage database, including creating 
+features within this resource. 
 
 
 ## Installation
@@ -21,10 +23,10 @@ The **pygeopkg** library is compatible with Python 2+ and Python 3+.
 **pygeopkg** can be used to: 
 * Create a new empty GeoPackage from scratch.
 * Create new Feature Classes within a GeoPackage.
-* Populate Feature Classes with geometry and attributes. (see **Steps 3 & 4**)
+* Populate Feature Classes with geometry and attributes. 
 
 
-### Step 1 - Create An Empty GeoPackage
+### Create An Empty GeoPackage
 
 ```python
 from pygeopkg.core.geopkg import GeoPackage
@@ -33,11 +35,13 @@ from pygeopkg.core.geopkg import GeoPackage
 gpkg = GeoPackage.create(r'c:\temp\test.gpkg')
 ```
 
-Geopackages are created with *three* default Spatial References defined
+GeoPackages are created with *three* default Spatial References defined
 automatically, a pair of Spatial References to handle undefined cases,
 and a WGS 84 entry. 
 
-The definition of the WGS84 entry is flexible - meaning that the *WKT for WGS84* can be setup per the users liking. As an example, use with Esri's ArcGIS means either using the *EPSG WKT* or the *ESRI WKT*. By
+The definition of the WGS84 entry is flexible - meaning that the 
+*WKT for WGS84* can be setup per the users liking. As an example, use with 
+Esri's ArcGIS means either using the *EPSG WKT* or the *ESRI WKT*. By
 default the *ESRI WKT* is used - However, if *EPSG WKT* is desired, you
 may provide a ``flavor`` parameter to the create method specifying EPSG.
 
@@ -47,7 +51,7 @@ gpkg = GeoPackage.create(r'c:\temp\test.gpkg', flavor='EPSG')
 ```
 
 
-### Step 2 - Create A New Feature Class
+### Create A New Feature Class
 
 To create a new Feature Class in the empty GeoPackage, you will need
 to tell the GeoPackage the Spatial Reference of the Feature Class
@@ -110,7 +114,7 @@ and Spatial Reference well known text. This object should be used when
 creating a Feature Class.
 
 
-### Step 3 - Insert Records Into A Feature Class
+### Insert Records Into A Feature Class
 
 Records can be inserted into a Feature Class using the ``insert_rows`` 
 method. This method inserts all the rows with a single sql call to 
@@ -160,7 +164,7 @@ fc.insert_rows(field_names, rows)
 ```
 
 
-### Step 4 - Creating OGC Geometry Well Known Binaries
+### Creating OGC Geometry Well Known Binaries
 
 As mentioned, this library supports the creation of point, line, and 
 polygon well known binaries. Functions supporting these capabilities 
